@@ -1,0 +1,24 @@
+Package: waypointer
+Title: Scrolling Callbacks for 'Shiny'
+Version: 0.0.0.9000
+Authors@R: 
+    c(
+			person(
+				given = "John",
+        family = "Coene",
+        role = c("aut", "cre"),
+        email = "jcoenep@gmail.com"),
+			person(
+				given = "Caleb",
+				family = "Troughton",
+				role = "cph"
+			)
+		)
+Description: Scrolling callbacks for 'Shiny'.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    shiny,
+    magrittr
+RoxygenNote: 6.1.1
