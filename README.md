@@ -9,7 +9,7 @@ Simple waypoints to shiny.
 remotes::install_github("JohnCoene/waypointer")
 ```
 
-## Example
+## How-to
 
 Create a waypoint with `waypoint$new()`  passing _at least_ the id of the element to observe as `dom_id` (first argument). 
 
