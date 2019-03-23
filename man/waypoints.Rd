@@ -26,4 +26,44 @@ A waypoint object to track.
 }
 }
 
+\examples{
+library(shiny)
+
+
+ui <- fluidPage(
+	use_waypointer(),
+	div(
+		"Scroll!", 
+		style = "min-height:90vh"
+	),
+	verbatimTextOutput("result"),
+	plotOutput("plot"),
+	div(style = "min-height:90vh")
+)
+
+server <- function(input, output, session) {
+
+	w <- Waypoint$
+		new("plot", offset = "20\%")$
+		start()
+
+	output$result <- renderPrint({
+		w$get_direction()
+	})
+
+	output$plot <- renderPlot({
+
+		req(w$get_direction())
+
+		if(w$get_direction() == "down")
+			hist(runif(100))
+		else
+			""
+	})
+
+}
+
+if(interactive()) shinyApp(ui, server)
+
+}
 \keyword{datasets}

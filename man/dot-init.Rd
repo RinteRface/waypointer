@@ -15,8 +15,14 @@
 
 \item{horizontal}{Whether to apply waypoints of horizontal offset.}
 
-\item{id}{Id of waypoint.}
+\item{id}{Id of waypoint, see details.}
 }
 \description{
 Initialise a waypoint
+}
+\details{
+If you do not provide an \code{id} then you will have to rely on the \code{get_*} family of
+of methods to get the callbacks. If you do, you can still rely on the latter but also may access 
+the callbacks the traditional way with `input$idName_direction`, `input$idName_next`, and 
+`input$idName_previous`.
 }
