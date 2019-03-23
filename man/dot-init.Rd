@@ -4,7 +4,7 @@
 \alias{.init}
 \title{Initialise}
 \usage{
-.init(self, dom_id, offset = NULL, id = NULL)
+.init(self, dom_id, offset = NULL, horizontal = FALSE, id = NULL)
 }
 \arguments{
 \item{self}{A \code{waypoint} object.}
@@ -12,6 +12,8 @@
 \item{dom_id}{Id of element to attach waypoint to.}
 
 \item{offset}{Vertical offset, an integer (pixels) or a percentage passed as a string e.g. \code{"10"}.}
+
+\item{horizontal}{Whether to apply waypoints of horizontal offset.}
 
 \item{id}{Id of waypoint.}
 }

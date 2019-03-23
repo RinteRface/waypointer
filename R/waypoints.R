@@ -1,10 +1,12 @@
-#' Dependencies
+#' Waypoints dependencies
 #' 
 #' Sources waypointer dependencies.
 #' 
 #' @details Place anywhere in your shiny UI. 
 #' 
 #' @import shiny
+#' 
+#' @seealso \code{\link{waypoints}}
 #' 
 #' @export
 use_waypointer <- function() {
@@ -21,13 +23,26 @@ use_waypointer <- function() {
 #' 
 #' A waypoint object to track.
 #' 
+#' @section Methods:
+#' \itemize{
+#'   \item{\code{new}: Instantiates a new waypoint, arguements can be found at \code{\link{.init}}}	
+#'   \item{\code{start}: Starts monitoring a waypoint.}	
+#'   \item{\code{destroy}: Destroy a waypoint.}	
+#'   \item{\code{enable}: Enable a waypoint.}	
+#'   \item{\code{disable}: Disable awaypoint.}	
+#'   \item{\code{get_direction}: Get the direction of the scroll.}	
+#'   \item{\code{get_next}: Get the next waypoint.}	
+#'   \item{\code{get_previous}: Get the previous waypoint.}	
+#' }
+#' 
+#' @name waypoints
 #' @export
 Waypoint <- R6::R6Class(
 	"Waypoint",
 	public = list(
-		initialize = function(dom_id, offset = NULL, id = NULL){
+		initialize = function(dom_id, offset = NULL, horizontal = FALSE, id = NULL){
 
-			.init(self, dom_id, offset, id)
+			.init(self, dom_id, offset, horizontal, id)
 
 		},
 		start = function(){
@@ -85,11 +100,18 @@ Waypoint <- R6::R6Class(
 				missing("missing offset")
 			else
 				private$.offset <- offset
+		},
+		horizontal = function(horizontal){
+			if(missing(horizontal))
+				missing("missing horizontal")
+			else
+				private$.horizontal <- horizontal
 		}
 	),
 	private = list(
 		.id = NULL,
 		.dom_id = NULL,
-		.offset = 0L
+		.offset = 0L,
+		.horizontal = FALSE
 	)
 )
