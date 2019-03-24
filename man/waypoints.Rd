@@ -4,6 +4,8 @@
 \name{waypoints}
 \alias{waypoints}
 \alias{Waypoint}
+\alias{waypointer}
+\alias{Waypointer}
 \title{Waypoint}
 \format{An object of class \code{R6ClassGenerator} of length 24.}
 \usage{
@@ -33,7 +35,7 @@ library(shiny)
 ui <- fluidPage(
 	use_waypointer(),
 	div(
-		"Scroll!", 
+		h1("Scroll down"), 
 		style = "min-height:90vh"
 	),
 	verbatimTextOutput("result"),
@@ -64,6 +66,5 @@ server <- function(input, output, session) {
 }
 
 if(interactive()) shinyApp(ui, server)
-
 }
 \keyword{datasets}

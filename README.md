@@ -1,6 +1,6 @@
 # waypointer
 
-Simple waypoints to shiny.
+Simple waypoints for shiny.
 
 ## Installation
 
@@ -11,6 +11,15 @@ remotes::install_github("JohnCoene/waypointer")
 
 ## How-to
 
+1. Place `use_waypointer()` anywhere in your ui.
+2. Create a waypoint with `new` method, giving it the id of the element to watch.
+3. Start the waypoint with the `start` method.
+4. Watch the waypoint with the `get_direction` method.
+
+More methods and callbacks in the documentation: `?waypointer`.
+
+## Examples
+
 Create a waypoint with `waypoint$new()`  passing _at least_ the id of the element to observe as `dom_id` (first argument). 
 
 ``` r
@@ -20,7 +29,7 @@ library(waypointer)
 ui <- fluidPage(
 	use_waypointer(),
 	div(
-		"Scroll!", 
+		h1("Scroll down"), 
 		style = "min-height:90vh"
 	),
 	verbatimTextOutput("result"),
@@ -63,7 +72,7 @@ library(waypointer)
 ui <- fluidPage(
 	use_waypointer(),
 	div(
-		"Scroll!", 
+		h1("Scroll down"), 
 		style = "min-height:90vh"
 	),
 	verbatimTextOutput("result"),

@@ -42,7 +42,7 @@ use_waypointer <- function() {
 #' ui <- fluidPage(
 #' 	use_waypointer(),
 #' 	div(
-#' 		"Scroll!", 
+#' 		h1("Scroll down"), 
 #' 		style = "min-height:90vh"
 #' 	),
 #' 	verbatimTextOutput("result"),
@@ -73,7 +73,7 @@ use_waypointer <- function() {
 #' }
 #' 
 #' if(interactive()) shinyApp(ui, server)
-#' 
+#' @aliases waypointer Waypointer Waypoint
 #' @name waypoints
 #' @export
 Waypoint <- R6::R6Class(
