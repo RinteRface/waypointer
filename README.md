@@ -34,7 +34,7 @@ Note that the `get_*` family of methods return character vectors and not the way
 3. `enable` - enable the waypoint (enabled by default)
 4. `disable` - disable the waypoint.
 5. `destroy` - destroy the waypoint.
-6. `animate` - animate the waypoint.
+6. `animate` - animate the waypoint, see `?.init` for the full list.
 7. `get_direction` - returns the direction in which the user scrolls passed the waypoint (`up` or `down`) 
 8. `get_triggered` - returns `TRUE` if the waypoint has been triggered previously, and `FALSE` otherwise.
 
