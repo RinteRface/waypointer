@@ -1,3 +1,5 @@
+[![Travis build status](https://travis-ci.org/JohnCoene/waypointer.svg?branch=master)](https://travis-ci.org/JohnCoene/waypointer)
+
 # waypointer
 
 Simple waypoints for shiny.
