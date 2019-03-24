@@ -7,6 +7,8 @@
 #' @param offset Vertical offset, an integer (pixels) or a percentage passed as a string e.g. \code{"10"}.
 #' @param id Id of waypoint, see details.
 #' @param horizontal Whether to apply waypoints of horizontal offset.
+#' @param animate Whether to animate the anchor when the waypoint is triggered.
+#' @param animation Animation to use, note that this can be overriden in the \code{animate} method.
 #' 
 #' @details If you do not provide an \code{id} then you will have to rely on the \code{get_*} family of
 #' of methods to get the callbacks. If you do, you can still rely on the latter but also may access 
@@ -14,7 +16,7 @@
 #' `input$idName_previous`.
 #' 
 #' @export
-.init <- function(self, dom_id, offset = NULL, horizontal = FALSE, id = NULL){
+.init <- function(self, dom_id, animate = FALSE, animation = "bounce", offset = NULL, horizontal = FALSE, id = NULL){
 	
 	if(missing(dom_id))
 		stop("missing dom_id", call. = FALSE)
@@ -29,4 +31,6 @@
 
 	self$dom_id <- dom_id
 	self$horizontal <- horizontal
+	self$must_animate <- animate
+	self$animation <- animation
 }

@@ -2,7 +2,7 @@
 
 # waypointer
 
-Simple waypoints for shiny.
+Simple animated waypoints for shiny.
 
 ## Installation
 
@@ -14,11 +14,34 @@ remotes::install_github("JohnCoene/waypointer")
 ## How-to
 
 1. Place `use_waypointer()` anywhere in your ui.
-2. Create a waypoint with `new` method, giving it the id of the element to watch.
+2. Create a waypoint with `new` method, giving it _at least_ the id of the element to watch.
 3. Start the waypoint with the `start` method.
 4. Watch the waypoint with the `get_direction` method.
 
-More methods and callbacks in the documentation: `?waypointer`.
+## Methods
+
+Note that the `get_*` family of methods return character vectors and not the waypoint, unlike others.
+
+1. `new` - create a waypoint.
+2. `start` - start watching the waypoint.
+3. `enable` - enable the waypoint (enabled by default)
+4. `disable` - disable the waypoint.
+5. `destroy` - destroy the waypoint.
+6. `animate` - animate the waypoint.
+7. `get_direction` - returns the direction in which the user scrolls passed the waypoint (`up` or `down`) 
+8. `get_next` - returns the next waypoint.
+9. `get_previous` - returns the previous waypoint.
+
+## Arguments
+
+All the arguments are passed to the `new` method, at the expection of `animation` which can _also_ be passed to the `animate` method.
+
+- `dom_id` - Id of element to watch. 
+- `animate` - Set to `TRUE` to automatically animate when the waypoint is triggered.
+- `animation` - Name of animation, defaults to `shake`.
+- `offset` - By default, the handler is triggered when the top of an element hits the top of the viewport. The offset changes the location of that trigger point.
+- `horizontal` - When horizontal is set to true, all of this changes to the horizontal axis and the `get_direction` method will return `left` or `right`.
+- `id` - Id of waypoint. When used you can replace the `get_*` family of methods to traditional shiny inputs, e.g. if the `id` of the waypoint is set to `myInput` then you can obtain the `direction` in your shiny server with `input$myInput_direction`.
 
 ## Examples
 
@@ -101,6 +124,88 @@ server <- function(input, output, session) {
 			hist(runif(100))
 		else
 			"" # hide if sccrolling up
+	})
+
+}
+
+shinyApp(ui, server)
+```
+
+You can also animate the waypoint, setting `animate` to `TRUE` will automatically animate the waypoint when is triggered.
+
+```r
+library(shiny)
+library(waypointer)
+
+ui <- fluidPage(
+	use_waypointer(),
+	div(
+		"Scroll!", 
+		style = "min-height:90vh"
+	),
+	verbatimTextOutput("result"),
+	plotOutput("plot"),
+	div(style = "min-height:90vh")
+)
+
+server <- function(input, output, session) {
+
+	w <- Waypoint$
+		new("plot", offset = "20%", animate = TRUE)$
+		start()
+
+	output$result <- renderPrint({
+		w$get_direction()
+	})
+
+	output$plot <- renderPlot({
+
+		req(w$get_direction())
+
+		if(w$get_direction() == "down")
+			hist(runif(100))
+    else
+			""
+	})
+
+}
+
+shinyApp(ui, server)
+```
+
+Otherwise you may use the `animate` method to manually trigger the animation.
+
+```r
+library(shiny)
+library(waypointer)
+
+ui <- fluidPage(
+	use_waypointer(),
+	div(
+		"Scroll!", 
+		style = "min-height:90vh"
+	),
+	verbatimTextOutput("result"),
+	plotOutput("plot"),
+	div(style = "min-height:90vh")
+)
+
+server <- function(input, output, session) {
+
+	w <- Waypoint$
+		new("plot", offset = "20%")$
+		start()
+
+	output$result <- renderPrint({
+		w$get_direction()
+	})
+
+	output$plot <- renderPlot({
+
+		req(w$get_direction())
+
+		hist(runif(100))
+    w$animate()
 	})
 
 }

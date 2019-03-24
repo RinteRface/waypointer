@@ -13,6 +13,7 @@ use_waypointer <- function() {
 	singleton(
 		tags$head(
 			tags$script("window.wps = [];"),
+      tags$link(href = "animate-assets/animate.min.css", rel = "stylesheet", type = "text/css"),
 			tags$script(src = "waypointer-assets/scrolly.min.js"),
 			tags$script(src = "waypointer-assets/custom.js")
 		)
@@ -28,9 +29,10 @@ use_waypointer <- function() {
 #'   \item{\code{new}: Instantiates a new waypoint, arguements can be found at \code{\link{.init}}}	
 #'   \item{\code{start}: Starts monitoring a waypoint.}	
 #'   \item{\code{destroy}: Destroy a waypoint.}	
-#'   \item{\code{enable}: Enable a waypoint.}	
-#'   \item{\code{disable}: Disable awaypoint.}	
-#'   \item{\code{get_direction}: Get the direction of the scroll.}	
+#'   \item{\code{enable}: Enable a waypoint (enabled by default).}	
+#'   \item{\code{disable}: Disable a waypoint.}	
+#'   \item{\code{animate}: Animate a waypoint, accepts, optionally, an animation.}	
+#'   \item{\code{get_direction}: Returns the direction in which the user scrolls passed the waypoint.}	
 #'   \item{\code{get_next}: Get the next waypoint.}	
 #'   \item{\code{get_previous}: Get the previous waypoint.}	
 #' }
@@ -79,9 +81,9 @@ use_waypointer <- function() {
 Waypoint <- R6::R6Class(
 	"Waypoint",
 	public = list(
-		initialize = function(dom_id, offset = NULL, horizontal = FALSE, id = NULL){
+		initialize = function(dom_id, animate = FALSE, animation = "shake", offset = NULL, horizontal = FALSE, id = NULL){
 
-			.init(self, dom_id, offset, horizontal, id)
+			.init(self, dom_id, animate, animation, offset, horizontal, id)
 
 		},
 		start = function(){
@@ -91,7 +93,9 @@ Waypoint <- R6::R6Class(
 			opts <- list(
 				id = private$.id,
 				dom_id = private$.dom_id,
-				offset = private$.offset
+				offset = private$.offset,
+        animate = private$.must_animate,
+        animation = private$.animation
 			)
 			session$sendCustomMessage("waypoint-start", opts)
 			invisible(self)
@@ -111,6 +115,17 @@ Waypoint <- R6::R6Class(
 			session$sendCustomMessage("waypoint-disable", list(id = private$.id))
 			invisible(self)
 		},
+		animate = function(animation = NULL){
+
+      opts <- list(dom_id = private$.dom_id, animation = private$.animation)
+
+      if(!is.null(animation))
+        opts$animation <- animation
+
+			session <- .get_session()
+			session$sendCustomMessage("waypoint-animate", opts)
+			invisible(self)
+		},
 		get_direction = function(){
 			.get_callback(private$.id, "direction")
 		},
@@ -124,33 +139,47 @@ Waypoint <- R6::R6Class(
 	active = list(
 		id = function(id){
 			if(missing(id))
-				missing(id)
+				stop("missing id")
 			else
 				private$.id <- id
 		},
 		dom_id = function(dom_id){
 			if(missing(dom_id))
-				missing("missing dom_id")
+				stop("missing dom_id")
 			else
 				private$.dom_id <- dom_id
 		},
 		offset = function(offset){
 			if(missing(offset))
-				missing("missing offset")
+				stop("missing offset")
 			else
 				private$.offset <- offset
 		},
 		horizontal = function(horizontal){
 			if(missing(horizontal))
-				missing("missing horizontal")
+				stop("missing horizontal")
 			else
 				private$.horizontal <- horizontal
+		},
+		must_animate = function(must_animate = FALSE){
+			if(!is.logical(must_animate))
+				stop("must_animate is not logical")
+			else
+				private$.must_animate <- must_animate
+		},
+		animation = function(animation){
+			if(missing(animation))
+				stop("missing animation")
+			else
+				private$.animation <- animation
 		}
 	),
 	private = list(
 		.id = NULL,
 		.dom_id = NULL,
 		.offset = 0L,
-		.horizontal = FALSE
+		.horizontal = FALSE,
+    .must_animate = FALSE,
+    .animation = "shake"
 	)
 )

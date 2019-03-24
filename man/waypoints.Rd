@@ -20,9 +20,10 @@ A waypoint object to track.
   \item{\code{new}: Instantiates a new waypoint, arguements can be found at \code{\link{.init}}}	
   \item{\code{start}: Starts monitoring a waypoint.}	
   \item{\code{destroy}: Destroy a waypoint.}	
-  \item{\code{enable}: Enable a waypoint.}	
-  \item{\code{disable}: Disable awaypoint.}	
-  \item{\code{get_direction}: Get the direction of the scroll.}	
+  \item{\code{enable}: Enable a waypoint (enabled by default).}	
+  \item{\code{disable}: Disable a waypoint.}	
+  \item{\code{animate}: Animate a waypoint, accepts, optionally, an animation.}	
+  \item{\code{get_direction}: Returns the direction in which the user scrolls passed the waypoint.}	
   \item{\code{get_next}: Get the next waypoint.}	
   \item{\code{get_previous}: Get the previous waypoint.}	
 }

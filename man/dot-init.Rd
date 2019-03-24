@@ -4,12 +4,17 @@
 \alias{.init}
 \title{Initialise}
 \usage{
-.init(self, dom_id, offset = NULL, horizontal = FALSE, id = NULL)
+.init(self, dom_id, animate = FALSE, animation = "bounce",
+  offset = NULL, horizontal = FALSE, id = NULL)
 }
 \arguments{
 \item{self}{A \code{waypoint} object.}
 
 \item{dom_id}{Id of element to attach waypoint to.}
+
+\item{animate}{Whether to animate the anchor when the waypoint is triggered.}
+
+\item{animation}{Animation to use, note that this can be overriden in the \code{animate} method.}
 
 \item{offset}{Vertical offset, an integer (pixels) or a percentage passed as a string e.g. \code{"10"}.}
 
