@@ -1,5 +1,4 @@
 function animateCSS(element, animationName, callback) {
-  console.log(element);
   const node = document.getElementById(element)
   node.classList.add('animated', animationName)
 
@@ -14,16 +13,20 @@ function animateCSS(element, animationName, callback) {
 }
 
 Shiny.addCustomMessageHandler('waypoint-start', function(opts) {
+  window.trg[opts.id] = false;
+  Shiny.onInputChange(opts.id + "_triggered", window.trg[opts.id]);
+
 	window.wps[opts.id] = new Waypoint({
 		element: document.getElementById(opts.dom_id),
 		handler: function(direction) {
+
+      window.trg[opts.id] = true;
 
       if(opts.animate == true)
         animateCSS(opts.dom_id, opts.animation);
 
 			Shiny.onInputChange(opts.id + "_direction", direction);
-			Shiny.onInputChange(opts.id + "_previous", this.previous());
-			Shiny.onInputChange(opts.id + "_next", this.next());
+      Shiny.onInputChange(opts.id + "_triggered", window.trg[opts.id]);
 		},
 		offset: opts.offset
 	})

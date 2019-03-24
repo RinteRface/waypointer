@@ -26,6 +26,7 @@ A waypoint object to track.
   \item{\code{get_direction}: Returns the direction in which the user scrolls passed the waypoint.}	
   \item{\code{get_next}: Get the next waypoint.}	
   \item{\code{get_previous}: Get the previous waypoint.}	
+  \item{\code{get_previous}: eturns `TRUE` if the waypoint has been triggered previously, and `FALSE` otherwise.}	
 }
 }
 

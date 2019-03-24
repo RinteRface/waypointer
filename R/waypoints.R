@@ -13,6 +13,7 @@ use_waypointer <- function() {
 	singleton(
 		tags$head(
 			tags$script("window.wps = [];"),
+      tags$script("window.trg = [];"),
       tags$link(href = "animate-assets/animate.min.css", rel = "stylesheet", type = "text/css"),
 			tags$script(src = "waypointer-assets/scrolly.min.js"),
 			tags$script(src = "waypointer-assets/custom.js")
@@ -33,8 +34,7 @@ use_waypointer <- function() {
 #'   \item{\code{disable}: Disable a waypoint.}	
 #'   \item{\code{animate}: Animate a waypoint, accepts, optionally, an animation.}	
 #'   \item{\code{get_direction}: Returns the direction in which the user scrolls passed the waypoint.}	
-#'   \item{\code{get_next}: Get the next waypoint.}	
-#'   \item{\code{get_previous}: Get the previous waypoint.}	
+#'   \item{\code{get_previous}: eturns `TRUE` if the waypoint has been triggered previously, and `FALSE` otherwise.}	
 #' }
 #' 
 #' @examples
@@ -129,11 +129,8 @@ Waypoint <- R6::R6Class(
 		get_direction = function(){
 			.get_callback(private$.id, "direction")
 		},
-		get_previous = function(){
-			.get_callback(private$.id, "previous")
-		},
-		get_next = function(){
-			.get_callback(private$.id, "next")
+		get_triggered = function(){
+      .get_callback(private$.id, "triggered")
 		}
 	),
 	active = list(

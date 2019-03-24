@@ -4,6 +4,13 @@
 
 Simple animated waypoints for shiny.
 
+- [waypointer](#waypointer)
+  - [Installation](#installation)
+  - [Guide](#guide)
+  - [Methods](#methods)
+  - [Arguments](#arguments)
+  - [Examples](#examples)
+
 ## Installation
 
 ``` r
@@ -11,7 +18,7 @@ Simple animated waypoints for shiny.
 remotes::install_github("JohnCoene/waypointer")
 ```
 
-## How-to
+## Guide
 
 1. Place `use_waypointer()` anywhere in your ui.
 2. Create a waypoint with `new` method, giving it _at least_ the id of the element to watch.
@@ -29,8 +36,7 @@ Note that the `get_*` family of methods return character vectors and not the way
 5. `destroy` - destroy the waypoint.
 6. `animate` - animate the waypoint.
 7. `get_direction` - returns the direction in which the user scrolls passed the waypoint (`up` or `down`) 
-8. `get_next` - returns the next waypoint.
-9. `get_previous` - returns the previous waypoint.
+8. `get_triggered` - returns `TRUE` if the waypoint has been triggered previously, and `FALSE` otherwise.
 
 ## Arguments
 
@@ -45,7 +51,7 @@ All the arguments are passed to the `new` method, at the expection of `animation
 
 ## Examples
 
-Create a waypoint with `waypoint$new()`  passing _at least_ the id of the element to observe as `dom_id` (first argument). 
+Create a waypoint with `waypoint$new()`  passing _at least_ the id of the element to observe as `dom_id` (first argument). Note that technically the `get_*` family of methods are `input`s, you therefore may need to use `shiny::req` where needed (see below).
 
 ``` r
 library(shiny)
