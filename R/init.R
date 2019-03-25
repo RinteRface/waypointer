@@ -96,7 +96,8 @@
 #'   \item{\code{slideOutUp}}  
 #' }
 #' 
-#' 
+#' @aliases .init
+#' @name init
 #' @export
 .init <- function(self, dom_id, animate = FALSE, animation = "bounce", offset = NULL, horizontal = FALSE, id = NULL){
 	
