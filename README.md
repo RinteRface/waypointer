@@ -85,8 +85,6 @@ server <- function(input, output, session) {
 		# show if scrolling down
 		if(w$get_direction() == "down")
 			hist(runif(100))
-		else
-			"" # hide if sccrolling up
 	})
 
 }
@@ -128,8 +126,6 @@ server <- function(input, output, session) {
 		# show if scrolling down
 		if(input$myWaypoint_direction == "down")
 			hist(runif(100))
-		else
-			"" # hide if sccrolling up
 	})
 
 }
@@ -157,21 +153,24 @@ ui <- fluidPage(
 server <- function(input, output, session) {
 
 	w <- Waypoint$
-		new("plot", offset = "20%", animate = TRUE)$
+		new(
+      "plot", 
+      offset = "20%", 
+      animate = TRUE, 
+      id = "waypoint"
+    )$
 		start()
 
 	output$result <- renderPrint({
-		w$get_direction()
+		input$waypoint_direction
 	})
 
 	output$plot <- renderPlot({
 
-		req(w$get_direction())
+		req(input$waypoint_direction)
 
-		if(w$get_direction() == "down")
+		if(input$waypoint_direction == "down")
 			hist(runif(100))
-    else
-			""
 	})
 
 }
