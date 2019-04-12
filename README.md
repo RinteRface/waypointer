@@ -1,4 +1,4 @@
-[![Travis build status](https://travis-ci.org/JohnCoene/waypointer.svg?branch=master)](https://travis-ci.org/JohnCoene/waypointer)
+[![Build Status](https://travis-ci.org/RinteRface/waypointer.svg?branch=master)](https://travis-ci.org/RinteRface/waypointer)
 
 # waypointer
 
