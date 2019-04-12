@@ -15,7 +15,7 @@ Simple animated waypoints for shiny.
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("JohnCoene/waypointer")
+remotes::install_github("RinteRface/waypointer")
 ```
 
 ## Guide
