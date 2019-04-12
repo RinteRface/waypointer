@@ -1,34 +1,77 @@
 library(shiny)
 library(waypointer)
+library(fullPage)
 
-section <- function(..., style = "text-align:center;"){
-  stl <- paste("min-height:50vh;", style)
-  div(
-    style = stl,
-    ...
-  )
-}
+options <- list(
+  sectionsColor = c('#f2f2f2', '#4BBFC3', '#7BAABE'),
+  parallax = TRUE,
+  autoScrolling = FALSE
+)
 
-ui <- fluidPage(
+ui <- fullPage(
+  menu = c("waypointer" = "link1",
+           "Trigger" = "link2",
+           "Animations" = "section3",
+           "Plots" = "section4",
+           "Install" = "section5"),
+  opts = options,
   use_waypointer(),
-  section(
-    br(),
-    br(),
-    h1(
-      code("waypointer")
+  fullSection(
+    center = TRUE,
+    menu = "link1",
+    fullContainer(
+      center = TRUE,
+      h1("waypointer"),
+      br(),
+      br(),
+      p("Simple animated waypoints for Shiny")
     )
   ),
-  section(
-    uiOutput("waypoint1")
+  fullSection(
+    menu = "link2",
+    fullContainer(
+      uiOutput("waypoint1")
+    )
   ),
-  section(
-    uiOutput("waypoint2")
+  fullSection(
+    menu = "section3",
+    center = TRUE,
+    fullContainer(
+      fullRow(
+        fullColumn(
+          uiOutput("waypoint2")
+        ),
+        fullColumn(
+          verbatimTextOutput("direct")
+        )
+      )
+    )
   ),
-  section(
+  fullSection(
+    menu = "section4",
+    center = TRUE,
     h3("Animate plots"),
     plotOutput("waypoint3")
   ),
-  section()
+  fullSection(
+    menu = "section5",
+    center = TRUE,
+    fullContainer(
+      br(),
+      br(),
+      br(),
+      code("remotes::install_github('RinteRface/waypointer')"),
+      br(),
+      br(),
+      br(),
+      tags$a(
+        id = "code",
+        icon("code"),
+        href = "https://github.com/RinteRface/waypointer",
+        class = "fa-7x"
+      )
+    )
+  )
 )
 
 server <- function(input, output, session) {
@@ -41,13 +84,15 @@ server <- function(input, output, session) {
 
   w2 <- Waypoint$new(
     "waypoint2",
-    offset = "50%"
+    offset = "50%",
+    animation = "fadeInLeft"
   )$
     start()
 
   w3 <- Waypoint$new(
     "waypoint3",
-    offset = "50%"
+    offset = "50%",
+    animation = "fadeInUp"
   )$
     start()
 
@@ -55,7 +100,7 @@ server <- function(input, output, session) {
     req(w1$get_triggered())
     
     if(w1$get_triggered())
-      h3("Programatically trigger waypoints")
+      h2("Programatically trigger waypoints")
   })
 
   output$waypoint2 <- renderUI({
@@ -65,7 +110,11 @@ server <- function(input, output, session) {
       w2$animate()
       h3("Animate when triggered!")
     }
-  })  
+  })
+
+  output$direct <- renderPrint({
+    w2$get_direction()
+  })
 
   output$waypoint3 <- renderPlot({
     req(w3$get_triggered())
@@ -74,7 +123,7 @@ server <- function(input, output, session) {
       w3$animate()
       hist(runif(100))
     }
-  })  
+  })
 
 }
 
