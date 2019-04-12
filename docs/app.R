@@ -3,7 +3,7 @@ library(waypointer)
 library(fullPage)
 
 options <- list(
-  sectionsColor = c('#f2f2f2', '#4BBFC3', '#7BAABE'),
+  sectionsColor = c('#FFF07C', '#E2FCEF', '#FFE2D1', '#ECEBE4', '#C4E7D4'),
   parallax = TRUE,
   autoScrolling = FALSE
 )
@@ -15,7 +15,14 @@ ui <- fullPage(
            "Plots" = "section4",
            "Install" = "section5"),
   opts = options,
+  tags$head(
+    tags$link(
+      href = "https://fonts.googleapis.com/css?family=Montserrat",
+      rel = "stylesheet"
+    )
+  ),
   use_waypointer(),
+  tags$style("*{font-family: 'Montserrat', sans-serif;}"),
   fullSection(
     center = TRUE,
     menu = "link1",
@@ -50,7 +57,8 @@ ui <- fullPage(
   fullSection(
     menu = "section4",
     center = TRUE,
-    h3("Animate plots"),
+    h2("Animate plots"),
+    br(),
     plotOutput("waypoint3")
   ),
   fullSection(
@@ -58,7 +66,7 @@ ui <- fullPage(
     center = TRUE,
     fullContainer(
       br(),
-      br(),
+      h2("Install"),
       br(),
       code("remotes::install_github('RinteRface/waypointer')"),
       br(),
@@ -123,7 +131,7 @@ server <- function(input, output, session) {
       w3$animate()
       hist(runif(100))
     }
-  })
+  }, bg = "transparent")
 
 }
 
