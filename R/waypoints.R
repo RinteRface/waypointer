@@ -25,6 +25,9 @@ use_waypointer <- function() {
 #' 
 #' A waypoint object to track.
 #' 
+#' @field up,down Whether waypoint has been passed on the up or down.
+#' @field direction Direction in which waypoint is going.
+#' 
 #' @examples
 #' library(shiny)
 #' 
@@ -78,7 +81,15 @@ Waypoint <- R6::R6Class(
 #' @param waypoint_id Id of waypoint, useful to get the input value.
 #' @param start Whether to automatically start watching the waypoint.
 	public = list(
+    up = FALSE,
+    down = FALSE,
+    direction = NULL,
 		initialize = function(id, animate = FALSE, animation = "shake", offset = NULL, horizontal = FALSE, waypoint_id = NULL, start = TRUE){
+
+      if(!is.null(waypoint_id)){
+        session <- .get_session()
+        waypoint_id <- session$ns(waypoint_id)
+      }
 
 			.init(self, id, animate, animation, offset, horizontal, waypoint_id)
 
@@ -136,25 +147,33 @@ Waypoint <- R6::R6Class(
 		},
 #' @details Get direction in which user is scrolling past the waypoint
 		get_direction = function(){
-			.get_callback(private$.id, "direction")
+			direction <- .get_callback(private$.id, "direction")
+      self$direction <- direction
+      return(direction)
 		},
 #' @details Whether user is scrolling up past the waypoint.
 		going_up = function(){
 			direction <- .get_callback(private$.id, "direction")
 
       if(is.null(direction))
-        return(FALSE)
+        direction <- NULL
+
+      direction <- direction == "up"
+      self$up <- direction
       
-      direction == "up"
+      return(direction)
 		},
 #' @details Whether user is scrolling down past the waypoint.
 		going_down = function(){
 			direction <- .get_callback(private$.id, "direction")
 
       if(is.null(direction))
-        return(FALSE)
+        direction <- FALSE
+
+      direction <- direction == "down"
+      self$down <- direction
       
-      direction == "down"
+      return(direction)
 		},
 #' @details Whether waypoint has been triggered.
 		get_triggered = function(){

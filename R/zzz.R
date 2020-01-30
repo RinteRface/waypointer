@@ -7,4 +7,8 @@
     "animate-assets",
     system.file("animate", package = "waypointer")
   )
+
+  shiny::registerInputHandler("waypointer", function(data, ...) {
+    jsonlite::fromJSON(jsonlite::toJSON(data, auto_unbox = TRUE))
+  }, force = TRUE)
 }

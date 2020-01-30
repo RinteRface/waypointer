@@ -25,8 +25,8 @@ Shiny.addCustomMessageHandler('waypoint-start', function(opts) {
       if(opts.animate == true)
         animateCSS(opts.dom_id, opts.animation);
 
-			Shiny.onInputChange(opts.id + "_direction", direction);
-      Shiny.onInputChange(opts.id + "_triggered", window.trg[opts.id]);
+			Shiny.onInputChange(opts.id + "_direction:waypointer", direction);
+      Shiny.onInputChange(opts.id + "_triggered:waypointer", window.trg[opts.id]);
 		},
 		offset: opts.offset
 	})

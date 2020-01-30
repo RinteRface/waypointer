@@ -48,6 +48,22 @@ server <- function(input, output, session) {
 
 if(interactive()) shinyApp(ui, server)
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{up, down}}{Whether waypoint has been passed on the up or down.}
+
+\item{\code{direction}}{Direction in which waypoint is going.}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{up, down}}{Whether waypoint has been passed on the up or down.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
