@@ -25,18 +25,6 @@ use_waypointer <- function() {
 #' 
 #' A waypoint object to track.
 #' 
-#' @section Methods:
-#' \itemize{
-#'   \item{\code{new}: Instantiates a new waypoint, arguements can be found at \code{\link{.init}}}	
-#'   \item{\code{start}: Starts monitoring a waypoint.}	
-#'   \item{\code{destroy}: Destroy a waypoint.}	
-#'   \item{\code{enable}: Enable a waypoint (enabled by default).}	
-#'   \item{\code{disable}: Disable a waypoint.}	
-#'   \item{\code{animate}: Animate a waypoint, accepts, optionally, an animation.}	
-#'   \item{\code{get_direction}: Returns the direction in which the user scrolls passed the waypoint.}	
-#'   \item{\code{get_previous}: eturns `TRUE` if the waypoint has been triggered previously, and `FALSE` otherwise.}	
-#' }
-#' 
 #' @examples
 #' library(shiny)
 #' 
@@ -80,12 +68,27 @@ use_waypointer <- function() {
 #' @export
 Waypoint <- R6::R6Class(
 	"Waypoint",
+#' @details Initialise
+#' 
+#' @param id Id of element to use as waypoint.
+#' @param animate Whether to animate element when the waypoint is triggered.
+#' @param animation Animation to use if \code{animate} is set.
+#' @param offset Offset relative to viewport to trigger the waypoint.
+#' @param horizontal Set to \code{TRUE} if using horizontally.
+#' @param waypoint_id Id of waypoint, useful to get the input value.
+#' @param start Whether to automatically start watching the waypoint.
 	public = list(
-		initialize = function(dom_id, animate = FALSE, animation = "shake", offset = NULL, horizontal = FALSE, id = NULL){
+		initialize = function(id, animate = FALSE, animation = "shake", offset = NULL, horizontal = FALSE, waypoint_id = NULL, start = TRUE){
 
-			.init(self, dom_id, animate, animation, offset, horizontal, id)
+			.init(self, id, animate, animation, offset, horizontal, waypoint_id)
+
+      if(start)
+        self$start()
+
+      invisible(self)
 
 		},
+#' @details Start watching the waypoint.
 		start = function(){
 			
 			session <- .get_session()
@@ -100,21 +103,25 @@ Waypoint <- R6::R6Class(
 			session$sendCustomMessage("waypoint-start", opts)
 			invisible(self)
 		},
+#' @details Destroy the waypoint.
 		destroy = function(){
 			session <- .get_session()
 			session$sendCustomMessage("waypoint-destroy", list(id = private$.id))
 			invisible(self)
 		},
+#' @details Enable the waypoint.
 		enable = function(){
 			session <- .get_session()
 			session$sendCustomMessage("waypoint-enable", list(id = private$.id))
 			invisible(self)
 		},
+#' @details Disable the waypoint.
 		disable = function(){
 			session <- .get_session()
 			session$sendCustomMessage("waypoint-disable", list(id = private$.id))
 			invisible(self)
 		},
+#' @details Animate the waypoint.
 		animate = function(animation = NULL){
 
       opts <- list(dom_id = private$.dom_id, animation = private$.animation)
@@ -126,49 +133,31 @@ Waypoint <- R6::R6Class(
 			session$sendCustomMessage("waypoint-animate", opts)
 			invisible(self)
 		},
+#' @details Get direction in which user is scrolling past the waypoint
 		get_direction = function(){
 			.get_callback(private$.id, "direction")
 		},
+#' @details Whether user is scrolling up past the waypoint.
+		going_up = function(){
+			direction <- .get_callback(private$.id, "direction")
+
+      if(is.null(direction))
+        return(FALSE)
+      
+      direction == "up"
+		},
+#' @details Whether user is scrolling down past the waypoint.
+		going_down = function(){
+			direction <- .get_callback(private$.id, "direction")
+
+      if(is.null(direction))
+        return(FALSE)
+      
+      direction == "down"
+		},
+#' @details Whether waypoint has been triggered.
 		get_triggered = function(){
       .get_callback(private$.id, "triggered")
-		}
-	),
-	active = list(
-		id = function(id){
-			if(missing(id))
-				stop("missing id")
-			else
-				private$.id <- id
-		},
-		dom_id = function(dom_id){
-			if(missing(dom_id))
-				stop("missing dom_id")
-			else
-				private$.dom_id <- dom_id
-		},
-		offset = function(offset){
-			if(missing(offset))
-				stop("missing offset")
-			else
-				private$.offset <- offset
-		},
-		horizontal = function(horizontal){
-			if(missing(horizontal))
-				stop("missing horizontal")
-			else
-				private$.horizontal <- horizontal
-		},
-		must_animate = function(must_animate = FALSE){
-			if(!is.logical(must_animate))
-				stop("must_animate is not logical")
-			else
-				private$.must_animate <- must_animate
-		},
-		animation = function(animation){
-			if(missing(animation))
-				stop("missing animation")
-			else
-				private$.animation <- animation
 		}
 	),
 	private = list(

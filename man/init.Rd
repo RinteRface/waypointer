@@ -5,8 +5,15 @@
 \alias{.init}
 \title{Initialise}
 \usage{
-.init(self, dom_id, animate = FALSE, animation = "bounce",
-  offset = NULL, horizontal = FALSE, id = NULL)
+.init(
+  self,
+  dom_id,
+  animate = FALSE,
+  animation = "bounce",
+  offset = NULL,
+  horizontal = FALSE,
+  id = NULL
+)
 }
 \arguments{
 \item{self}{A \code{waypoint} object.}

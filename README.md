@@ -80,10 +80,10 @@ server <- function(input, output, session) {
 
 	output$plot <- renderPlot({
 
-		req(w$get_direction())
+		req(w$going_down())
 
 		# show if scrolling down
-		if(w$get_direction() == "down")
+		if(w$going_down())
 			hist(runif(100))
 	})
 
