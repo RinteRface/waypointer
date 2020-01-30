@@ -158,6 +158,13 @@ Disable the waypoint.
 \if{html}{\out{<div class="r">}}\preformatted{Waypoint$animate(animation = NULL)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{animation}}{Animation to use.}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Details}{
 Animate the waypoint.
 }

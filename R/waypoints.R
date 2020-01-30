@@ -122,6 +122,7 @@ Waypoint <- R6::R6Class(
 			invisible(self)
 		},
 #' @details Animate the waypoint.
+#' @param animation Animation to use.
 		animate = function(animation = NULL){
 
       opts <- list(dom_id = private$.dom_id, animation = private$.animation)
@@ -158,6 +159,44 @@ Waypoint <- R6::R6Class(
 #' @details Whether waypoint has been triggered.
 		get_triggered = function(){
       .get_callback(private$.id, "triggered")
+		}
+	),
+	active = list(
+		id = function(id){
+			if(missing(id))
+				stop("missing id")
+			else
+				private$.id <- id
+		},
+		dom_id = function(dom_id){
+			if(missing(dom_id))
+				stop("missing dom_id")
+			else
+				private$.dom_id <- dom_id
+		},
+		offset = function(offset){
+			if(missing(offset))
+				stop("missing offset")
+			else
+				private$.offset <- offset
+		},
+		horizontal = function(horizontal){
+			if(missing(horizontal))
+				stop("missing horizontal")
+			else
+				private$.horizontal <- horizontal
+		},
+		must_animate = function(must_animate = FALSE){
+			if(!is.logical(must_animate))
+				stop("must_animate is not logical")
+			else
+				private$.must_animate <- must_animate
+		},
+		animation = function(animation){
+			if(missing(animation))
+				stop("missing animation")
+			else
+				private$.animation <- animation
 		}
 	),
 	private = list(
